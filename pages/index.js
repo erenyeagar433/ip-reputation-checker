@@ -1,4 +1,4 @@
-import { useState } from 'react';More actions
+import { useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 
@@ -27,7 +27,6 @@ export default function Home() {
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'ip_reputation.csv';
-    link.click
     link.click();
   };
 
