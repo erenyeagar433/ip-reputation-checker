@@ -55,7 +55,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75"></div>
               <div className="relative p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl">
                 <svg
-                  className="h-8 w-8 text-white shrink-0"
+                  className="h-5 w-5 text-white shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 mb-8 shadow-2xl">
           <div className="flex items-center gap-3 mb-6">
             <svg
-              className="h-6 w-6 text-blue-400 shrink-0"
+              className="h-5 w-5 text-blue-400 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
