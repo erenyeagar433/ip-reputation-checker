@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
@@ -43,9 +42,9 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 max-w-[300px] max-h-[300px] bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 max-w-[300px] max-h-[300px] bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 max-w-[350px] max-h-[350px] bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto p-8">
@@ -55,8 +54,18 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-75"></div>
               <div className="relative p-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl">
-                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <svg
+                  className="h-8 w-8 text-white shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
                 </svg>
               </div>
             </div>
@@ -72,16 +81,30 @@ export default function Home() {
         {/* Input Section */}
         <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 mb-8 shadow-2xl">
           <div className="flex items-center gap-3 mb-6">
-            <svg className="h-6 w-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg
+              className="h-6 w-6 text-blue-400 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
             <h2 className="text-2xl font-bold text-white">Enter IP Addresses</h2>
           </div>
-          
+
           <div className="relative mb-6">
             <textarea
               rows={12}
-              placeholder="Enter one IP address per line&#10;Example:&#10;8.8.8.8&#10;1.1.1.1&#10;192.168.1.1"
+              placeholder={`Enter one IP address per line
+Example:
+8.8.8.8
+1.1.1.1
+192.168.1.1`}
               value={ipInput}
               onChange={(e) => setIpInput(e.target.value)}
               className="w-full bg-slate-800/50 border border-slate-600 text-white placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl p-6 font-mono text-lg resize-none outline-none transition-all duration-200"
@@ -90,9 +113,9 @@ export default function Home() {
               {ipInput.split('\n').filter(ip => ip.trim().length > 0).length} IPs
             </div>
           </div>
-          
-          <button 
-            onClick={handleSubmit} 
+
+          <button
+            onClick={handleSubmit}
             disabled={loading}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105 disabled:scale-100 flex items-center gap-3 text-lg shadow-lg"
           >
@@ -103,8 +126,18 @@ export default function Home() {
               </>
             ) : (
               <>
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <svg
+                  className="h-5 w-5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
                 </svg>
                 Check Reputation
               </>
@@ -117,8 +150,18 @@ export default function Home() {
           <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-8 border-b border-slate-700/50">
               <div className="flex items-center gap-3 mb-4 sm:mb-0">
-                <svg className="h-6 w-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="h-6 w-6 text-green-400 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 <h2 className="text-2xl font-bold text-white">
                   Results ({results.length} IPs analyzed)
@@ -129,8 +172,18 @@ export default function Home() {
                   onClick={downloadCSV}
                   className="border border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
                 >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg
+                    className="h-4 w-4 shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
                   Download CSV
                 </button>
@@ -138,14 +191,24 @@ export default function Home() {
                   onClick={downloadJSON}
                   className="border border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
                 >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  <svg
+                    className="h-4 w-4 shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
                   </svg>
                   Download JSON
                 </button>
               </div>
             </div>
-            
+
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -160,7 +223,10 @@ export default function Home() {
                 </thead>
                 <tbody>
                   {results.map((res, idx) => (
-                    <tr key={idx} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors duration-200">
+                    <tr
+                      key={idx}
+                      className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors duration-200"
+                    >
                       <td className="py-4 px-6">
                         <code className="text-blue-300 bg-slate-800/50 px-3 py-2 rounded-lg text-sm font-mono border border-blue-900/30">
                           {res.ip}
