@@ -1,20 +1,11 @@
 import axios from 'axios';
+import countries from 'i18n-iso-countries';
 
-// Simple rate limiter: 4 requests per minute (1 every 15 sec)
+// Register English locale for country names
+countries.registerLocale(require('i18n-iso-countries/langs/en.json'));
+
+// Delay for 15s between API calls (4/min limit)
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Country code to full name map
-const countryMap = {
-  US: 'United States',
-  IN: 'India',
-  NL: 'Netherlands',
-  CN: 'China',
-  RU: 'Russia',
-  DE: 'Germany',
-  FR: 'France',
-  GB: 'United Kingdom',
-  // Add more as needed
-};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -34,27 +25,32 @@ export default async function handler(req, res) {
 
   for (let i = 0; i < ips.length; i++) {
     const ip = ips[i];
-    console.log(`Checking IP: ${ip}`);
+    console.log(`Processing IP: ${ip}`);
+
     try {
-      // VirusTotal API call
+      // === VirusTotal API Call ===
       const vtResponse = await axios.get(`https://www.virustotal.com/api/v3/ip_addresses/${ip}`, {
         headers: {
           'x-apikey': VT_API_KEY,
         },
       });
 
-      // Count malicious detections from all engines
-      const lastResults = vtResponse.data.data.attributes.last_analysis_results;
+      const analysisResults = vtResponse.data.data.attributes.last_analysis_results;
       let maliciousCount = 0;
-      for (const engine in lastResults) {
-        if (lastResults[engine].category === 'malicious') {
+      let totalEngines = 0;
+
+      for (const engine in analysisResults) {
+        totalEngines++;
+        if (analysisResults[engine].category === 'malicious') {
           maliciousCount++;
         }
       }
 
-      await delay(15000); // Wait 15 sec before AbuseIPDB call
+      // Format: e.g. "8/94"
+      const vtScore = `${maliciousCount}/${totalEngines}`;
+      await delay(15000); // 15s wait to avoid VT rate limit
 
-      // AbuseIPDB API call
+      // === AbuseIPDB API Call ===
       const abuseResponse = await axios.get(`https://api.abuseipdb.com/api/v2/check`, {
         params: {
           ipAddress: ip,
@@ -66,23 +62,26 @@ export default async function handler(req, res) {
         },
       });
 
-      const countryCode = abuseResponse.data.data.countryCode;
-      const fullCountry = countryMap[countryCode] || countryCode;
+      const abuseData = abuseResponse.data.data;
+
+      // Get full country name from country code
+      const countryFull = countries.getName(abuseData.countryCode, "en") || abuseData.countryCode;
+      const abuseConfidence = `${abuseData.abuseConfidenceScore}%`;
 
       results.push({
         ip,
-        vt_score: maliciousCount,
-        abuse_confidence: abuseResponse.data.data.abuseConfidenceScore,
-        isp: abuseResponse.data.data.isp,
-        country: fullCountry,
+        vt_score: vtScore,
+        abuse_confidence: abuseConfidence,
+        isp: abuseData.isp,
+        country: countryFull,
       });
 
-      await delay(15000); // Wait before next IP
+      await delay(15000); // wait before next IP
     } catch (error) {
       console.error(`Error checking IP ${ip}:`, error.message);
       results.push({
         ip,
-        error: 'Failed to retrieve data',
+        error: 'Failed to fetch data from one or both APIs.',
       });
     }
   }
